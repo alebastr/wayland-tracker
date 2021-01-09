@@ -21,7 +21,7 @@ executable wayland-tracker
   C-sources:           cbits/wayland-msg-handling.c
   include-dirs:        cbits
   -- other-extensions:
-  build-depends:       base, mtl, stm, network, unix, bytestring, xml,
+  build-depends:       base, mtl, stm, network >= 3, unix, bytestring, xml,
                        containers, binary-bits >= 0.3, cmdargs, utf8-string,
                        attoparsec, attoparsec-binary, time, aeson,
                        base16-bytestring, cpu, binary, aeson-pretty >= 0.8.1

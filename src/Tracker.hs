@@ -482,7 +482,8 @@ passThread input output = do
 
 execProcess :: FilePath -> [String] -> Socket.Socket -> PT.Fd -> PT.Fd -> IO a
 execProcess path args sock writeFd readFd = do
-    let wFd = show $ Socket.fdSocket sock
+    socket <- Socket.unsafeFdSocket sock
+    let wFd = show socket
 
     env <- E.getEnvironment
     let filteredEnv = filter (\x -> fst x /= "WAYLAND_SOCKET") env
@@ -574,8 +575,9 @@ runApplication xfs lt lf cmd cmdargs = do
     -- open the connection to the server
 
     serverSock <- Socket.socket Socket.AF_UNIX Socket.Stream Socket.defaultProtocol
+    serverSockFd <- Socket.unsafeFdSocket serverSock
 
-    PI.setFdOption (PT.Fd $ Socket.fdSocket serverSock) PI.CloseOnExec True
+    PI.setFdOption (PT.Fd serverSockFd) PI.CloseOnExec True
 
     let serverPath = xdgDir ++ "/" ++ serverName
 
@@ -594,8 +596,9 @@ runApplication xfs lt lf cmd cmdargs = do
     -- create wayland socket for the child and start a thread for it
 
     (clientSock, trackerSock) <- Socket.socketPair Socket.AF_UNIX Socket.Stream Socket.defaultProtocol
+    clientSockFd <- Socket.unsafeFdSocket clientSock
 
-    PI.setFdOption (PT.Fd $ Socket.fdSocket clientSock) PI.CloseOnExec True
+    PI.setFdOption (PT.Fd clientSockFd) PI.CloseOnExec True
 
     -- start threads for communication and processing
 
