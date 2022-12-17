@@ -22,7 +22,7 @@ executable wayland-tracker
   include-dirs:        cbits
   -- other-extensions:
   build-depends:       base, mtl, stm, network >= 3, unix, bytestring, xml,
-                       containers, binary-bits >= 0.3, cmdargs, utf8-string,
+                       containers, caerbannog, cmdargs, utf8-string,
                        attoparsec, attoparsec-binary, time, aeson,
                        base16-bytestring, cpu, binary, aeson-pretty >= 0.8.1
   hs-source-dirs:      ., cbits, src
